@@ -4,23 +4,17 @@ import { Input } from '@formily/antd-components';
 import 'antd/dist/antd.css';
 
 interface IComponentProps {
-
+  schema: any
 }
 
-const SchemaEditor: React.FC<IComponentProps> = () => {
+const SchemaEditor: React.FC<IComponentProps> = ({
+  schema
+}) => {
   return (
     <SchemaForm
       components={{ Input }}
-      onSubmit={values => {
-        console.log(values)
-      }}
-    >
-      <Field type="string" name="name" title="Name" x-component="Input" />
-      <FormButtonGroup>
-        <Submit>查询</Submit>
-        <Reset>重置</Reset>
-      </FormButtonGroup>
-    </SchemaForm>
+      schema={schema}
+    />
   )
 }
 
