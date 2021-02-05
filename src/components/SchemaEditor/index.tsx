@@ -1,19 +1,19 @@
-import React from 'react';
-import { SchemaForm, SchemaMarkupField as Field, FormButtonGroup, Submit, Reset } from '@formily/antd';
+import React, { useContext } from 'react';
+import { SchemaForm } from '@formily/antd';
+import EditorContext from '../../store/context';
 import { Input } from '@formily/antd-components';
+
 import 'antd/dist/antd.css';
 
 interface IComponentProps {
-  schema: any
 }
 
-const SchemaEditor: React.FC<IComponentProps> = ({
-  schema
-}) => {
+const SchemaEditor: React.FC<IComponentProps> = () => {
+  const context = useContext<any>(EditorContext);
   return (
     <SchemaForm
       components={{ Input }}
-      schema={schema}
+      schema={context.schema}
     />
   )
 }

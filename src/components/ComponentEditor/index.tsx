@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import EditorContext from '../../store/context';
 import { Button } from 'antd';
 
 interface IComponentProps {
-  onAddDone: (schema: any) => void;
+
 }
 
 let fieldId = 0
 
-const ComponentEditor: React.FC<IComponentProps> = ({
-  onAddDone
-}) => {
-  const [schema, setSchema] = useState({ type: 'object', properties: {} });
+const ComponentEditor: React.FC<IComponentProps> = () => {
+  const context = useContext<any>(EditorContext);
 
   const onAddInput = () => {
     const componentId = fieldId++
-    const newSchema = {
-      ...schema,
-      properties: {
-        ...schema.properties,
-        [`NO_NAME_FIELD_${componentId}`]: {
-          key: `NO_NAME_FIELD_${componentId}`,
-          type: 'string',
-          'x-component': 'input'
+    const newComponent = {
+      [`NO_NAME_FIELD_${componentId}`]: {
+        key: `NO_NAME_FIELD_${componentId}`,
+        type: 'string',
+        'x-component': 'input',
+        'x-component-props': {
+          disabled: false,
+          placeholder: '请输入',
+          onClick: () => {
+            context.onSelect(newComponent)
+          }
         }
       }
     }
-    onAddDone(newSchema);
-    setSchema(newSchema);
+    const newSchema = {
+      ...context.schema,
+      properties: {
+        ...context.schema.properties,
+        ...newComponent,
+      }
+    }
+    context.onUpdateSchema(newSchema);
   }
 
   return (
