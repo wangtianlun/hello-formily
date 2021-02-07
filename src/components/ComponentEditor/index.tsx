@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 import EditorContext from '../../store/context';
-import { Button } from 'antd';
-
+import { Button, Space } from 'antd';
 interface IComponentProps {
 
+}
+
+enum ComponentNames {
+  Input = 'input',
+  Select = 'select',
+  DatePicker = 'datepicker'
 }
 
 let fieldId = 0
@@ -11,13 +16,15 @@ let fieldId = 0
 const ComponentEditor: React.FC<IComponentProps> = () => {
   const context = useContext<any>(EditorContext);
 
-  const onAddInput = () => {
+  const onAddComponent = (componentName: ComponentNames) => {
+    console.log('ComponentNames: ', ComponentNames)
     const componentId = fieldId++
     const newComponent = {
       [`NO_NAME_FIELD_${componentId}`]: {
         key: `NO_NAME_FIELD_${componentId}`,
         type: 'string',
-        'x-component': 'input',
+        title: `NO_NAME_FIELD_${componentId}`,
+        'x-component': componentName,
         'x-component-props': {
           disabled: false,
           placeholder: '请输入',
@@ -39,7 +46,12 @@ const ComponentEditor: React.FC<IComponentProps> = () => {
 
   return (
     <div style={{ height: 400 }}>
-      <Button onClick={onAddInput}>文本框</Button>
+      <h4>操作栏</h4>
+      <Space>
+        <Button onClick={() => onAddComponent(ComponentNames.Input)}>文本框</Button>
+        <Button onClick={() => onAddComponent(ComponentNames.Select)}>下拉框</Button>
+        <Button onClick={() => onAddComponent(ComponentNames.DatePicker)}>日期</Button>
+      </Space>
     </div>
   )
 }

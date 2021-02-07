@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Form, Checkbox, Input, Button } from 'antd';
 import EditorContext from '../../store/context';
+import { actions } from '../SchemaEditor';
 
 interface IComponentProps {
   selectedComponent: any
@@ -17,20 +18,31 @@ const PropsEditor: React.FC<IComponentProps> = ({
 
   const onFinish = (values: any) => {
     context.onPropsUpdate(values)
+    actions.setFieldState(fieldKeys[0], state => {
+      state.value = '123'
+    })
   }
 
   useEffect(() => {
     form.setFieldsValue({
+      ...props,
       ...componentProps,
     })
   }, [selectedComponent]);
 
   return (<>
-    <h6>属性编辑</h6>
+    <h4>属性编辑</h4>
     <Form 
       form={form} 
       onFinish={onFinish}
     >
+      {
+        selectedComponent && (
+          <Form.Item label="字段label" key="title" name="title">
+            <Input />
+          </Form.Item>
+        )
+      }
       {
         componentProps && Object.keys(componentProps).map(key => {
           switch (key) {

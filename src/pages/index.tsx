@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SchemaEditor from '../components/SchemaEditor';
 import ComponentEditor from '../components/ComponentEditor';
 import PropsEditor from '../components/PropsEditor';
